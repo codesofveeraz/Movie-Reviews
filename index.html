@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OpenReviews</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>🎬 OpenReviews</h1>
+
+<div class="filters">
+    <input 
+        type="text" 
+        id="searchInput" 
+        placeholder="Search movies..."
+        onkeyup="filterMovies()"
+    >
+
+    <select id="languageFilter" onchange="filterMovies()">
+        <option value="">All Languages</option>
+        <option value="Nepali">Nepali</option>
+        <option value="English">English</option>
+        <option value="Hindi">Hindi</option>
+    </select>
+
+    <select id="genreFilter" onchange="filterMovies()">
+        <option value="">All Genres</option>
+        <option value="Drama">Drama</option>
+        <option value="Crime">Crime</option>
+        <option value="Sci-Fi">Sci-Fi</option>
+        <option value="Thriller">Thriller</option>
+    </select>
+</div>
+
+<div id="movie-list"></div>
+
+<script src="script.js"></script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+     apiKey: "AIzaSyArIK2AOYxX57kw1Zzv3c__IXc0ciPZyVg",
+  authDomain: "movie-reviews-c4aa1.firebaseapp.com",
+  projectId: "movie-reviews-c4aa1",
+  storageBucket: "movie-reviews-c4aa1.firebasestorage.app",
+  messagingSenderId: "682467244643",
+  appId: "1:682467244643:web:7dea3695bc6f2105ae9656"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  async function loadMovies() {
+    const querySnapshot = await getDocs(collection(db, "movies"));
+    querySnapshot.forEach((doc) => {
+      console.log(doc.id, doc.data());
+    });
+  }
+
+  loadMovies();
+</script>
+</body>
+</html>
