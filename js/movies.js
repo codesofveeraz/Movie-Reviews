@@ -23,3 +23,4 @@ export async function loadMovies() {
     movieList.appendChild(card);
   });
 }
+loadMovies();
