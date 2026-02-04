@@ -1,5 +1,5 @@
 export function renderMovies(movies) {
-  const container = document.getElementById("movies-list");
+  const container = document.getElementById("movie-list");
   container.innerHTML = "";
 
   movies.forEach(movie => {
