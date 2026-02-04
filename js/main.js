@@ -1,13 +1,15 @@
-import { addReview, getReviewsByMovie } from "./reviews.js";
+import { searchMovie } from "./tmdb.js";
+import { addMovie } from "./movies.js";
+import { renderTMDBResults } from "./ui.js";
 
-const params = new URLSearchParams(window.location.search);
-const movieId = params.get("movieId");
+const searchInput = document.getElementById("tmdbSearch");
 
-if (movieId) {
-  loadReviews(movieId);
-}
+if (searchInput) {
+  searchInput.addEventListener("input", async (e) => {
+    const query = e.target.value.trim();
+    if (!query) return;
 
-async function loadReviews(movieId) {
-  const reviews = await getReviewsByMovie(movieId);
-  renderReviews(reviews);
+    const results = await searchMovie(query);
+    renderTMDBResults(results);
+  });
 }

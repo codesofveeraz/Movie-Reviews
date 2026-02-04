@@ -1,42 +1,36 @@
-export function renderMovies(movies) {
-  const container = document.getElementById("movie-list");
+export function renderTMDBResults(results) {
+  const container = document.getElementById("tmdbResults");
   if (!container) return;
 
   container.innerHTML = "";
 
-  movies.forEach(movie => {
-    const poster = movie.poster?.trim()
-      ? movie.poster
+  results.forEach(movie => {
+    const poster = movie.poster_path
+      ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
       : "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg";
 
     container.innerHTML += `
-      <div class="movie-card" data-id="${movie.id}">
+      <div class="tmdb-card" data-title="${movie.title}" data-poster="${poster}" data-description="${movie.overview}">
         <img src="${poster}" alt="${movie.title}">
-        <h3>${movie.title}</h3>
-        <p>${movie.description || "No description yet."}</p>
+        <h4>${movie.title} (${movie.release_date?.slice(0,4) || "N/A"})</h4>
+        <p>${movie.overview?.slice(0,100) || ""}...</p>
+        <button class="add-movie-btn">Add Movie</button>
       </div>
     `;
   });
 
-  document.querySelectorAll(".movie-card").forEach(card => {
-    card.addEventListener("click", () => {
-      window.location.href = `add-review.html?movieId=${card.dataset.id}`;
+  // Add click listeners for "Add Movie" button
+  document.querySelectorAll(".add-movie-btn").forEach(btn => {
+    btn.addEventListener("click", async (e) => {
+      const card = e.target.closest(".tmdb-card");
+      const movie = {
+        title: card.dataset.title,
+        poster: card.dataset.poster,
+        description: card.dataset.description,
+        createdAt: new Date()
+      };
+      await addMovie(movie);
+      alert(`${movie.title} added!`);
     });
-  });
-}
-export function renderReviews(reviews) {
-  const container = document.getElementById("reviewsList");
-  if (!container) return;
-
-  container.innerHTML = "";
-
-  reviews.forEach(review => {
-    container.innerHTML += `
-      <div class="review-card">
-        <strong>${review.reviewer}</strong>
-        ⭐ ${review.rating}/5
-        <p>${review.text}</p>
-      </div>
-    `;
   });
 }
