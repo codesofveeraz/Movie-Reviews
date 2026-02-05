@@ -1,3 +1,5 @@
+import { addMovie } from "./movies.js";
+
 export function renderTMDBResults(results) {
   const container = document.getElementById("tmdbResults");
   if (!container) return;
