@@ -8,8 +8,9 @@ export function renderTMDBResults(results) {
 
   results.forEach(movie => {
     const poster = movie.poster_path
-      ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-      : "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg";
+  ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+  : "https://via.placeholder.com/300x450?text=No+Image";
+
 
     container.innerHTML += `
       <div class="tmdb-card" data-title="${movie.title}" data-poster="${poster}" data-description="${movie.overview}">
@@ -26,11 +27,12 @@ export function renderTMDBResults(results) {
     btn.addEventListener("click", async (e) => {
       const card = e.target.closest(".tmdb-card");
       const movie = {
-        title: card.dataset.title,
-        poster: card.dataset.poster,
-        description: card.dataset.description,
-        createdAt: new Date()
-      };
+  title: card.dataset.title,
+  poster: card.dataset.poster || "https://via.placeholder.com/300x450?text=No+Image",
+  description: card.dataset.description,
+  createdAt: new Date()
+};
+
       await addMovie(movie);
       alert(`${movie.title} added!`);
     });
