@@ -9,14 +9,21 @@ async function renderMovies() {
   list.innerHTML = "";
 
   movies.forEach(movie => {
-    list.innerHTML += `
-      <div class="movie">
-        <img src="${movie.poster}" width="150">
-        <h3>${movie.title}</h3>
-        <p>${movie.description?.slice(0,150) || ""}</p>
-        <a href="add-review.html">Add Review</a>
-      </div>
+    const poster =
+      movie.poster && movie.poster.startsWith("http")
+        ? movie.poster
+        : "https://placehold.co/300x450?text=No+Image";
+
+    const card = document.createElement("div");
+    card.className = "movie";
+
+    card.innerHTML = `
+      <img src="${poster}">
+      <h3>${movie.title}</h3>
+      <p>${movie.description || ""}</p>
     `;
+
+    list.appendChild(card);
   });
 }
 
