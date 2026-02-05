@@ -9,7 +9,8 @@ export function renderTMDBResults(results) {
   results.forEach(movie => {
     const poster = movie.poster_path
   ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-  : "https://via.placeholder.com/300x450?text=No+Image";
+  : "https://placehold.co/300x450?text=No+Image";
+
 
 
     container.innerHTML += `
@@ -26,12 +27,13 @@ export function renderTMDBResults(results) {
   document.querySelectorAll(".add-movie-btn").forEach(btn => {
     btn.addEventListener("click", async (e) => {
       const card = e.target.closest(".tmdb-card");
-      const movie = {
+     const movie = {
   title: card.dataset.title,
-  poster: card.dataset.poster || "https://via.placeholder.com/300x450?text=No+Image",
+  poster: card.dataset.poster || "https://placehold.co/300x450?text=No+Image",
   description: card.dataset.description,
   createdAt: new Date()
 };
+
 
       await addMovie(movie);
       alert(`${movie.title} added!`);
