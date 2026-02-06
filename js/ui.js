@@ -27,12 +27,15 @@ export function renderTMDBResults(results) {
     btn.addEventListener("click", async (e) => {
       const card = e.target.closest(".tmdb-card");
 
-      const movie = {
-        title: card.dataset.title,
-        poster: card.dataset.poster,
-        description: card.dataset.description,
-        createdAt: new Date()
-      };
+     const movie = {
+  title: card.dataset.title,
+  poster: card.dataset.poster.startsWith("http")
+    ? card.dataset.poster
+    : "https://placehold.co/300x450?text=No+Image",
+  description: card.dataset.description,
+  createdAt: new Date()
+};
+
 
       await addMovie(movie);
       alert("Movie added!");

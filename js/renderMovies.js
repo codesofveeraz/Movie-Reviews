@@ -9,10 +9,12 @@ async function renderMovies() {
   list.innerHTML = "";
 
   movies.forEach(movie => {
-    const poster =
-      movie.poster && movie.poster.startsWith("http")
-        ? movie.poster
-        : "https://placehold.co/300x450?text=No+Image";
+    let poster = "https://placehold.co/300x450?text=No+Image";
+
+if (movie.poster && movie.poster.startsWith("http")) {
+  poster = movie.poster;
+}
+
 
     const card = document.createElement("div");
     card.className = "movie";
