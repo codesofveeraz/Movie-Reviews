@@ -1,4 +1,5 @@
 import { getMovies } from "./movies.js";
+import { getReviewsByMovie } from "./reviews.js";
 
 const list = document.getElementById("movie-list");
 
@@ -13,11 +14,18 @@ async function renderMovies() {
     return;
   }
 
-  movies.forEach(movie => {
+  for (const movie of movies) {
     const poster =
       movie.poster && movie.poster.startsWith("http")
         ? movie.poster
         : "https://placehold.co/300x450?text=No+Image";
+
+    // Fetch reviews for this movie
+    const reviews = await getReviewsByMovie(movie.id);
+    const avgRating =
+      reviews.length > 0
+        ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1)
+        : "0";
 
     const card = document.createElement("div");
     card.className = "movie";
@@ -27,17 +35,20 @@ async function renderMovies() {
       <img src="${poster}" style="width:100%;pointer-events:none;">
       <h3>${movie.title}</h3>
       <p>${movie.description || ""}</p>
-      <small style="color:#666;">Click to add review</small>
+      <p style="margin-top:5px; font-size:0.9em;">
+        ⭐ ${avgRating} / 5 (${reviews.length} review${reviews.length !== 1 ? "s" : ""})
+      </p>
+      <button class="view-reviews-btn">View Reviews</button>
     `;
 
-    // ✅ CLICK HANDLER (THIS IS THE FIX)
+    // Click anywhere on card redirects to review page
     card.addEventListener("click", () => {
       localStorage.setItem("selectedMovieId", movie.id);
       window.location.href = "/add-review.html";
     });
 
     list.appendChild(card);
-  });
+  }
 }
 
 renderMovies();
