@@ -17,7 +17,14 @@ if (movie.poster && movie.poster.startsWith("http")) {
 
 
     const card = document.createElement("div");
-    card.className = "movie";
+card.className = "movie";
+card.style.cursor = "pointer";
+
+card.addEventListener("click", () => {
+  localStorage.setItem("selectedMovieId", movie.id);
+  window.location.href = "/add-review.html";
+});
+
 
     card.innerHTML = `
       <img src="${poster}">

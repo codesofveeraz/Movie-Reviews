@@ -8,8 +8,10 @@ import {
 const moviesRef = collection(db, "movies");
 
 export async function addMovie(movie) {
-  await addDoc(moviesRef, movie);
+  const docRef = await addDoc(moviesRef, movie);
+  return docRef; // return movieId
 }
+
 
 export async function getMovies() {
   const snapshot = await getDocs(moviesRef);

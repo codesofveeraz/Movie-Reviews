@@ -20,6 +20,8 @@ export function renderTMDBResults(results) {
 
     container.innerHTML += `
       <div class="tmdb-card"
+  data-id="${movie.id || ""}"
+
         data-title="${movie.title}"
         data-poster="${poster}"
         data-description="${movie.overview}">
@@ -41,8 +43,9 @@ export function renderTMDBResults(results) {
         createdAt: new Date()
       };
 
-      await addMovie(movie);
-      alert("Movie added!");
+      const docRef = await addMovie(movie);
+alert("Movie added! You can now add reviews for it.");
+
     });
   });
 }
