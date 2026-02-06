@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>Add Review</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -32,82 +33,49 @@
       color: white;
       cursor: pointer;
     }
+    .tmdb-card {
+      background: #222;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 6px;
+    }
+    .tmdb-card img {
+      width: 100%;
+      border-radius: 4px;
+    }
   </style>
 </head>
+
 <body>
 
-  <div class="box">
-    <h2>Add Review</h2>
+<div class="box">
+  <h2>Add Review</h2>
 
-    <input type="text" id="name" placeholder="Your name" required />
+  <input type="text" id="name" placeholder="Your name" />
 
-    <select id="rating">
-      <option value="">Select rating</option>
-      <option value="1">⭐ 1</option>
-      <option value="2">⭐ 2</option>
-      <option value="3">⭐ 3</option>
-      <option value="4">⭐ 4</option>
-      <option value="5">⭐ 5</option>
-    </select>
+  <select id="rating">
+    <option value="">Select rating</option>
+    <option value="1">⭐ 1</option>
+    <option value="2">⭐ 2</option>
+    <option value="3">⭐ 3</option>
+    <option value="4">⭐ 4</option>
+    <option value="5">⭐ 5</option>
+  </select>
 
-    <textarea id="text" rows="4" placeholder="Write your review"></textarea>
+  <textarea id="text" rows="4" placeholder="Write your review"></textarea>
 
-    <button id="submitReview">Submit Review</button>
-  </div>
-<!-- Firebase SDK -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  <button id="submitReview">Submit Review</button>
 
-  // 🔥 YOUR FIREBASE CONFIG (already pasted earlier)
- const firebaseConfig = {
-  apiKey: "AIzaSyArIK2AOYxX57kw1Zzv3c__IXc0ciPZyVg",
-  authDomain: "movie-reviews-c4aa1.firebaseapp.com",
-  projectId: "movie-reviews-c4aa1",
-  storageBucket: "movie-reviews-c4aa1.firebasestorage.app",
-  messagingSenderId: "682467244643",
-  appId: "1:682467244643:web:7dea3695bc6f2105ae9656"
-};
+  <hr>
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+  <h3>Search Movie</h3>
+  <input type="text" id="tmdbSearch" placeholder="Search for a movie..." />
+  <div id="tmdbResults"></div>
+</div>
 
-  // Submit review
-  document.getElementById("submitReview").addEventListener("click", async () => {
-    const name = document.getElementById("name").value;
-    const rating = Number(document.getElementById("rating").value);
-    const text = document.getElementById("text").value;
-
-    if (!name || !rating || !text) {
-      alert("Please fill all fields");
-      return;
-    }
-
-    try {
-      await addDoc(collection(db, "reviews"), {
-        name,
-        rating,
-        text,
-        createdAt: serverTimestamp()
-      });
-
-      alert("Review submitted successfully!");
-      document.getElementById("name").value = "";
-      document.getElementById("rating").value = "";
-      document.getElementById("text").value = "";
-
-    } catch (error) {
-      alert("Error submitting review");
-      console.error(error);
-    }
-  });
-</script>
-<h2>Search Movie</h2>
-<input type="text" id="tmdbSearch" placeholder="Search for a movie...">
-<div id="tmdbResults"></div>
+<!-- ONLY THESE SCRIPTS -->
 <script type="module" src="js/addReview.js"></script>
-
+<script type="module" src="js/main.js"></script>
 
 </body>
 </html>
